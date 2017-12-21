@@ -1,0 +1,7 @@
+[package]
+name = "urender"
+version = "0.1.0"
+authors = ["Shengqiu Li <lishengqiu.hit@gmail.com>"]
+
+[dependencies]
+bmp = "*"

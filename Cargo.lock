@@ -1,0 +1,23 @@
+[[package]]
+name = "bmp"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "byteorder 0.3.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "byteorder"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "urender"
+version = "0.1.0"
+dependencies = [
+ "bmp 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[metadata]
+"checksum bmp 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "33a6bb5a923248ce5f5234aecf6eca50f1f594282e846074986bd08bcb019509"
+"checksum byteorder 0.3.13 (registry+https://github.com/rust-lang/crates.io-index)" = "29b2aa490a8f546381308d68fc79e6bd753cd3ad839f7a7172897f1feedfa175"
