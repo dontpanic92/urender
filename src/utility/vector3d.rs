@@ -18,7 +18,7 @@ impl Vector3D {
     }
     
     pub fn cross(&self, rhs: Vector3D) -> Vector3D {
-        Vector3D::new(self.y * rhs.z - self.z * rhs.y , self.z * rhs.x - self.x * rhs.z , self.x * rhs.y -self.y * rhs.x)
+        Vector3D::new(self.y * rhs.z - self.z * rhs.y, self.z * rhs.x - self.x * rhs.z, self.x * rhs.y -self.y * rhs.x)
     }
 
     pub fn normal(&self) -> f64 {

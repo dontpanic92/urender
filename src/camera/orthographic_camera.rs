@@ -6,21 +6,18 @@ use bmp::Pixel;
 
 pub struct OrthographicCamera {
     vp: ViewPlane,
-    direction: Vector3D
+    position: Coord3D,
+    looking_at: Coord3D
 }
 
 impl OrthographicCamera {
     pub fn new() -> OrthographicCamera
     {
-        OrthographicCamera { vp: ViewPlane::new(), direction: Vector3D::new(0, 0, -1) }
+        OrthographicCamera { vp: ViewPlane::new(), position: Coord3D::new(0, 0, -100), looking_at: Coord3D::new(0, 0, 0) }
     }
     
     pub fn view_plane(&self) -> &ViewPlane {
         &self.vp
-    }
-
-    pub fn direction(&self) -> &Vector3D {
-        &self.direction
     }
 }
 
@@ -39,5 +36,21 @@ impl Camera for OrthographicCamera {
         }
 
         img
+    }
+
+    fn position(&self) -> Coord3D {
+        self.position
+    }
+    
+    fn set_position(&mut self, position: Coord3D) {
+        self.position = position;
+    }
+
+    fn looking_at(&self) -> Coord3D {
+        self.looking_at
+    }
+
+    fn look_at(&mut self, position: Coord3D) {
+        self.looking_at = position;
     }
 }

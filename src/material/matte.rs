@@ -2,6 +2,7 @@ use super::*;
 use super::brdf::*;
 use light::*;
 use utility::*;
+use std::fmt;
 
 pub struct Matte {
     ambient: Lambertian,
@@ -21,6 +22,7 @@ impl Material for Matte {
 
         for light in world.lights().iter() {
             let wi = (*light).direction(point);
+            //println!("wi: {}", wi);
             let cos = point.normal().dot(wi);
 
             if cos > 0. {
@@ -28,6 +30,7 @@ impl Material for Matte {
             }
         }
 
+        //println!("{}", color);
         let c = color.max_to_one();
         c
     }

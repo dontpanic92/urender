@@ -26,9 +26,11 @@ impl World {
     }
     
     pub fn build(&mut self) {
-        self.add_object(Box::new(Sphere::new(Coord3D::new(0, 20, 0), 65., Box::new(Matte::new(0.1, 1., RGBColor::new_u8(255, 0, 0))))));
-        self.add_object(Box::new(Sphere::new(Coord3D::new(0, -40, 0), 85., Box::new(Matte::new(0.1, 1., RGBColor::new_u8(0, 255, 0))))));
-        self.add_light(Box::new(DirectionalLight::new(Vector3D::new(-1, -1, 0), WHITE)));
+        self.add_object(Box::new(Sphere::new(Coord3D::new(0, 20, 0), 65., Box::new(Matte::new(0.2, 1., RGBColor::new_u8(255, 0, 0))))));
+        self.add_object(Box::new(Sphere::new(Coord3D::new(0, -40, 0), 85., Box::new(Matte::new(0.2, 1., RGBColor::new_u8(0, 255, 0))))));
+        self.add_object(Box::new(Plane::new(Coord3D::new(0, -40, 0), Vector3D::new(0, 1, 0), Box::new(Matte::new(0.2, 1., RGBColor::new_u8(0, 0, 255))))));
+        //self.add_light(Box::new(DirectionalLight::new(Vector3D::new(-1, -1, 0), WHITE)));
+        self.add_light(Box::new(PointLight::new(Coord3D::new(100, 100, 100), WHITE)));
     }
     
     pub fn add_object(&mut self, object: Box<GeometricObject>) {
@@ -68,5 +70,9 @@ impl World {
 
     pub fn lights(&self) -> &Vec<Box<Light>> {
         &self.lights
+    }
+
+    pub fn up() -> Vector3D {
+        Vector3D::new(0, 1, 0)
     }
 }

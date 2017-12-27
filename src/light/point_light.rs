@@ -22,10 +22,10 @@ impl Light for PointLight {
     }
     
     fn incident_radiance_at(&self, point: &HitPoint) -> RGBColor {
-        self.color * point.normal().dot((self.coord - point.coord()))
+        self.color * point.normal().dot((self.direction(point)))
     }
     
     fn direction(&self, point: &HitPoint) -> Vector3D {
-        self.coord - point.coord()
+        (self.coord - point.coord()).normalize()
     }
 }
