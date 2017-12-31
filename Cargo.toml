@@ -5,3 +5,4 @@ authors = ["Shengqiu Li <lishengqiu.hit@gmail.com>"]
 
 [dependencies]
 bmp = "*"
+rand = "0.4"

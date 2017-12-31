@@ -5,7 +5,8 @@ mod tracer;
 mod camera;
 mod light;
 mod material;
-
+mod sampler;
+extern crate rand;
 extern crate bmp;
 use world::World;
 use camera::*;
