@@ -3,18 +3,19 @@ use super::brdf::*;
 use light::*;
 use utility::*;
 
-pub struct Matte {
+pub struct Phong {
     ambient: Lambertian,
     diffuse: Lambertian,
+    specular: GlossySpecular
 }
 
-impl Matte {
-    pub fn new(ka: f64, kd: f64, color: RGBColor) -> Matte {
-        Matte { ambient: Lambertian::new(ka, color), diffuse: Lambertian::new(kd, color) }
+impl Phong {
+    pub fn new(ka: f64, kd: f64, ks: f64, e: f64, color: RGBColor) -> Phong {
+        Phong { ambient: Lambertian::new(ka, color), diffuse: Lambertian::new(kd, color), specular: GlossySpecular::new(ks, e, color) }
     }
 }
 
-impl Material for Matte {
+impl Material for Phong {
     fn shade(&self, point: &HitPoint, camera_ray: &Ray, world: &World) -> RGBColor {
         let wo = -camera_ray.direction();
         let mut color = (**world.ambient_light()).incident_radiance_at(point) * self.ambient.rho(point, wo);
@@ -28,11 +29,10 @@ impl Material for Matte {
             let cos = point.normal().dot(wi);
 
             if cos > 0. {
-                color = color + self.diffuse.f(point, wi, wo) * (*light).incident_radiance_at(point) * cos;
+                color = color + (self.diffuse.f(point, wi, wo) + self.specular.f(point, wi, wo)) * (*light).incident_radiance_at(point) * cos;
             }
         }
 
-        // println!("{}", color);
         let c = color.max_to_one();
         c
     }

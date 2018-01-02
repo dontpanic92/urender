@@ -26,11 +26,18 @@ impl World {
     }
     
     pub fn build(&mut self) {
-        self.add_object(Box::new(Sphere::new(Coord3D::new(0, 20, 0), 65., Box::new(Matte::new(0.2, 1., RGBColor::new_u8(255, 0, 0))))));
-        self.add_object(Box::new(Sphere::new(Coord3D::new(0, -40, 0), 85., Box::new(Matte::new(0.2, 1., RGBColor::new_u8(0, 255, 0))))));
-        self.add_object(Box::new(Plane::new(Coord3D::new(0, -40, 0), Vector3D::new(0, 1, 0), Box::new(Matte::new(0.2, 1., RGBColor::new_u8(0, 0, 255))))));
-        //self.add_light(Box::new(DirectionalLight::new(Vector3D::new(-1, -1, 0), WHITE)));
-        self.add_light(Box::new(PointLight::new(Coord3D::new(100, 100, 100), WHITE)));
+        let phong_red = Box::new(Phong::new(0.25, 1., 1., 20., RED));
+        let phong_green = Box::new(Phong::new(0.25, 1., 1., 20., GREEN));
+        let phong_blue = Box::new(Phong::new(0.25, 1., 1., 20., RED));
+        let matte_red = Box::new(Matte::new(0.25, 1., RED));
+        let matte_green = Box::new(Matte::new(0.25, 1., GREEN));
+        let matte_gray = Box::new(Matte::new(0.25, 1., RGBColor::new(0.2, 0.2, 0.2)));
+
+        self.add_object(Box::new(Sphere::new(Coord3D::new(0, 20, 0), 65., phong_red)));
+        self.add_object(Box::new(Sphere::new(Coord3D::new(0, -40, 0), 85., phong_green)));
+        self.add_object(Box::new(Plane::new(Coord3D::new(0, -40, 0), Vector3D::new(0, 1, 0), matte_gray)));
+        // self.add_light(Box::new(DirectionalLight::new(Vector3D::new(-1, -1, 0), WHITE)));
+        self.add_light(Box::new(PointLight::new(Coord3D::new(200, 200, 100), WHITE)));
     }
     
     pub fn add_object(&mut self, object: Box<GeometricObject>) {

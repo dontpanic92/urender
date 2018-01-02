@@ -1,6 +1,8 @@
 pub use self::random_sampler::*;
+pub use self::regular_sampler::*;
 
 mod random_sampler;
+mod regular_sampler;
 
 use utility::*;
 

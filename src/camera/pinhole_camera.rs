@@ -6,6 +6,7 @@ use bmp::Pixel;
 pub struct PinholeCamera {
     vp: ViewPlane,
     eye: Coord3D,
+    focal_length: f64,
     looking_at: Coord3D,
     sampler: Box<Sampler>
 }
@@ -13,7 +14,7 @@ pub struct PinholeCamera {
 impl PinholeCamera {
     pub fn new() -> PinholeCamera
     {
-        PinholeCamera { vp: ViewPlane::new(), eye: Coord3D::new(0, 0, 200), looking_at: Coord3D::new(0, 0, 0), sampler: Box::new(RandomSampler::new(256)) }
+        PinholeCamera { vp: ViewPlane::new(), eye: Coord3D::new(0, 100, 200), focal_length: 200., looking_at: Coord3D::new(0, 0, 0), sampler: Box::new(RegularSampler::new(1, 1)) }
     }
     
     pub fn view_plane(&self) -> &ViewPlane {
@@ -28,9 +29,9 @@ impl Camera for PinholeCamera {
         let local_front = (self.looking_at() - self.position()).normalize();
         let local_left = up.cross(local_front).normalize();
         let local_up = local_front.cross(local_left);
-        // let zw = 150.0;
 
         for (x, y) in img.coordinates() {
+
             let rx = - self.vp.pixel_size() as f64 * (x as f64 - (self.vp.hres() as f64 - 1.) / 2.);
             let ry = self.vp.pixel_size() as f64 * ((self.vp.vres() - y) as f64 -(self.vp.vres() as f64 - 1.) / 2.);
             // let direction_local = Vector3D::new(rx, ry, 150);
@@ -42,7 +43,7 @@ impl Camera for PinholeCamera {
             for coord in samples {
                 let new_x = rx - self.vp.pixel_size() / 2. + coord.x() * self.vp.pixel_size();
                 let new_y = ry - self.vp.pixel_size() / 2. + coord.y() * self.vp.pixel_size();
-                let direction = (new_x * local_left + new_y * local_up + 150 * local_front).normalize();
+                let direction = (new_x * local_left + new_y * local_up + self.focal_length * local_front).normalize();
                 let ray = Ray::new(self.eye, direction);
                 let sample_color = tracer.trace_ray(&ray, &world);
                 color = color + sample_color;
@@ -51,6 +52,7 @@ impl Camera for PinholeCamera {
             color = color / self.sampler.sample_num() as f64;
             
             img.set_pixel(x, y, Pixel { r: color.r_u8(), g: color.g_u8(), b: color.b_u8() } );
+            // println!("{} {} {} {} {}", x, y, color.r_u8(), color.g_u8(), color.b_u8() );
         }
         img
     }

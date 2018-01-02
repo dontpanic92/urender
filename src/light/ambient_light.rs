@@ -20,7 +20,11 @@ impl Light for AmbientLight {
         self.color
     }
 
-    fn direction(&self, point: &HitPoint) -> Vector3D {
+    fn direction(&self, coord: Coord3D) -> Vector3D {
         Vector3D::new(0, 0, 0)
+    }
+
+    fn is_in_shadow(&self, point: Coord3D, world: &World) -> bool {
+        true
     }
 }

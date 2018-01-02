@@ -113,5 +113,7 @@ impl Add<RGBColor> for RGBColor {
 
 pub const BLACK: RGBColor = RGBColor { r: 0., g: 0., b: 0. };
 pub const RED: RGBColor = RGBColor { r: 1., g: 0., b: 0. };
+pub const GREEN: RGBColor = RGBColor { r: 0., g: 1., b: 0. };
+pub const BLUE: RGBColor = RGBColor { r: 0., g: 0., b: 1. };
 pub const GRAY: RGBColor = RGBColor { r: 0.5, g: 0.5, b: 0.5 };
 pub const WHITE: RGBColor = RGBColor { r: 1., g: 1., b: 1. };
