@@ -1,6 +1,7 @@
 use std::ops::{Add, Mul, Div};
 use std::fmt::{self, Formatter, Display};
 use std::cmp::max;
+use std::error::Error;
 
 #[derive(Clone, Copy)]
 pub struct RGBColor {
@@ -16,6 +17,20 @@ impl RGBColor {
 
     pub fn new_u8(r: u8, g: u8, b: u8) -> RGBColor {
         RGBColor::new(r as f64 / 255., g as f64 / 255., b as f64 / 255.)
+    }
+
+    pub fn from_hex(hex: &str) -> Result<RGBColor, Box<Error>> {
+        let mut hex_chars = hex.chars().peekable();
+        if hex_chars.peek().unwrap() == &'#' { 
+            hex_chars.next();
+        }
+        let err_msg = "Failed to parse color";
+
+        let r = hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)? * 16 + hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)?;
+        let g = hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)? * 16 + hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)?;
+        let b = hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)? * 16 + hex_chars.next().ok_or(err_msg)?.to_digit(16).ok_or(err_msg)?;
+
+        Ok(RGBColor::new(r as f64 / 255., g as f64 / 255., b as f64 / 255.))
     }
 
     pub fn r(&self) -> f64 {

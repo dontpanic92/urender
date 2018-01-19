@@ -1,5 +1,6 @@
 use super::*;
 use utility::*;
+use std::error::Error;
 
 pub struct DirectionalLight {
     direction: Vector3D,
@@ -9,6 +10,14 @@ pub struct DirectionalLight {
 impl DirectionalLight {
     pub fn new(direction: Vector3D, color: RGBColor) -> DirectionalLight {
         DirectionalLight { direction: -direction.normalize(), color: color }
+    }    
+    
+    pub fn new_from_dict(map: &Dictionary) -> Result<DirectionalLight, Box<Error>> {
+        let mut split = map.get("direction").ok_or("direction is missing")?.split(",");
+        let direction = Vector3D::new(split.next().unwrap().trim().parse::<f64>()?, split.next().unwrap().trim().parse::<f64>()?, split.next().unwrap().trim().parse::<f64>()?);
+        let color = RGBColor::from_hex(map.get("color").ok_or("color is missing")?)?;
+
+        Ok(DirectionalLight::new(direction, color))
     }
 }
 

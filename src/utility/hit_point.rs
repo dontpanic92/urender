@@ -1,18 +1,18 @@
 use utility::*;
 use material::*;
 
-pub struct HitPoint<'a> {
+pub struct HitPoint {
     coord: Coord3D,
     normal: Vector3D,
-    material: &'a Material
+    material_name: String
 }
 
-impl<'a> HitPoint<'a> {
-    pub fn new(coord: Coord3D, normal: Vector3D, material: &'a Material) -> HitPoint<'a> {
+impl HitPoint {
+    pub fn new(coord: Coord3D, normal: Vector3D, material_name: String) -> HitPoint {
         HitPoint {
             coord: coord,
             normal: normal.normalize(),
-            material: material
+            material_name: material_name
         }
     }
     
@@ -24,7 +24,7 @@ impl<'a> HitPoint<'a> {
         self.normal
     }
 
-    pub fn material(&self) -> &'a Material {
-        self.material
+    pub fn material_name(&self) -> &String {
+        &self.material_name
     }
 }

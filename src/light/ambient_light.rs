@@ -1,5 +1,6 @@
 use super::*;
 use utility::*;
+use std::error::Error;
 
 pub struct AmbientLight {
     color: RGBColor
@@ -8,6 +9,12 @@ pub struct AmbientLight {
 impl AmbientLight {
     pub fn new(color: RGBColor) -> AmbientLight {
         AmbientLight { color: color }
+    }
+    
+    pub fn new_from_dict(map: &Dictionary) -> Result<AmbientLight, Box<Error>> {
+        let color = RGBColor::from_hex(map.get("color").ok_or("color is missing")?)?;
+
+        Ok(AmbientLight::new(color))
     }
 }
 

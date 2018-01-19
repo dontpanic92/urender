@@ -2,6 +2,7 @@ use super::*;
 use super::brdf::*;
 use light::*;
 use utility::*;
+use std::error::Error;
 
 pub struct Phong {
     ambient: Lambertian,
@@ -12,6 +13,17 @@ pub struct Phong {
 impl Phong {
     pub fn new(ka: f64, kd: f64, ks: f64, e: f64, color: RGBColor) -> Phong {
         Phong { ambient: Lambertian::new(ka, color), diffuse: Lambertian::new(kd, color), specular: GlossySpecular::new(ks, e, color) }
+    }
+
+    pub fn new_from_dict(map: &Dictionary) -> Result<Phong, Box<Error>> {
+        let ka = map.get("ka").ok_or("ka is missing")?.parse::<f64>()?;
+        let kd = map.get("kd").ok_or("kd is missing")?.parse::<f64>()?;
+        let color = RGBColor::from_hex(map.get("color").ok_or("color is missing")?)?;
+
+        let ks = map.get("ks").unwrap_or(&"1").parse::<f64>()?;
+        let e = map.get("e").unwrap_or(&"5").parse::<f64>()?;
+
+        Ok(Phong::new(ka, kd, ks, e, color))
     }
 }
 

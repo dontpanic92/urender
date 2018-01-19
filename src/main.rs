@@ -15,15 +15,16 @@ use std::env;
 fn main() {
     let args: Vec<_> = env::args().collect();
     
-    if args.len() < 2 {
-        println!("Usage: {} output_bitmap_path", args[0]);
+    if args.len() < 3 {
+        println!("Usage: {} scene.xml output_bitmap_path", args[0]);
         return;
     }
     
-    let mut w = World::new();
-    w.build();
+    /*let mut w = World::new();
+    w.build();*/
+    let w = World::load_scene(args[1].as_str());
     
     let c = camera::PinholeCamera::new();
     let img = c.render(&w, &tracer::RayCast::new());
-    img.save(&args[1]).unwrap();
+    img.save(&args[2]).unwrap();
 }

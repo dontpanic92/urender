@@ -1,0 +1,17 @@
+<World>
+<Materials>
+    <Matte name="red" ka="0.2" kd="1.0" color="#FF0000" />
+    <Phong name="redp" ka="0.2" kd="1.0" ks="0.5" color="#FF0000" />
+    <Matte name="green" ka="0.2" kd="1.0" color="#00FF00" />
+    <Matte name="white" ka="0.2" kd="1.0" color="#FFFFFF" />
+</Materials>
+<Lights>
+    <Ambient color="#FFFFFF" />
+    <Point color="#FFFFFF" coord="200, 200, 200" />
+</Lights>
+<Geometry>
+    <Sphere center="0, 20, 0" radius="60" material="redp" />
+    <Sphere center="0, -40, 0" radius="85" material="green" />
+    <Plane point="0, -20, 0" normal="0, 1, 0" material="white" />
+</Geometry>
+</World>
