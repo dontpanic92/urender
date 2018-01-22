@@ -28,7 +28,7 @@ impl BRDF for GlossySpecular {
         self.f_with_color(point, wi, wo, self.color)
     }
 
-    fn rho(&self, point: &HitPoint, wo: Vector3D) -> RGBColor {
+    fn rho(&self, _: &HitPoint, _: Vector3D) -> RGBColor {
         self.color * self.ks
     }
 }

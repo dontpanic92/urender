@@ -1,5 +1,4 @@
 use utility::*;
-use material::*;
 
 pub struct HitPoint {
     coord: Coord3D,

@@ -30,7 +30,7 @@ impl Light for PointLight {
         self.color
     }
     
-    fn incident_radiance_at(&self, point: &HitPoint) -> RGBColor {
+    fn incident_radiance_at(&self, _: &HitPoint) -> RGBColor {
         self.color 
         // point.normal().dot((self.direction(point.coord())))
     }
@@ -44,7 +44,11 @@ impl Light for PointLight {
         let shadow_ray = Ray::new(coord, direction);
         match world.hit_objects(&shadow_ray) {
             None => false,
-            Some(x) => true
+            Some(hp) => if (hp.coord() - coord).norm() > (self.coord() - coord).norm() {
+                false
+            } else {
+                true
+            }
         }
     }
 }

@@ -1,7 +1,5 @@
 use super::*;
 use utility::*;
-use rand;
-use rand::Rng;
 
 pub struct RegularSampler {
     row: i32,

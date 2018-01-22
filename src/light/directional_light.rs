@@ -27,12 +27,12 @@ impl Light for DirectionalLight {
     }
 
     
-    fn incident_radiance_at(&self, point: &HitPoint) -> RGBColor {
+    fn incident_radiance_at(&self, _: &HitPoint) -> RGBColor {
         self.color
         // point.normal().dot(self.direction)
     }
 
-    fn direction(&self, coord: Coord3D) -> Vector3D {
+    fn direction(&self, _: Coord3D) -> Vector3D {
         self.direction
     }
 
@@ -41,7 +41,7 @@ impl Light for DirectionalLight {
         let shadow_ray = Ray::new(coord, direction);
         match world.hit_objects(&shadow_ray) {
             None => false,
-            Some(x) => true
+            Some(_) => true
         }
     }
 }

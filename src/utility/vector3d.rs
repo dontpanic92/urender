@@ -21,12 +21,12 @@ impl Vector3D {
         Vector3D::new(self.y * rhs.z - self.z * rhs.y, self.z * rhs.x - self.x * rhs.z, self.x * rhs.y -self.y * rhs.x)
     }
 
-    pub fn normal(&self) -> f64 {
-        (self.x.powf(2.0) + self.y.powf(2.0) + self.z.powf(2.0)).sqrt()
+    pub fn norm(&self) -> f64 {
+        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
     pub fn normalize(&self) -> Vector3D {
-        let normal = self.normal();
+        let normal = self.norm();
         Vector3D::new(self.x / normal, self.y / normal, self.z / normal)
     }
     

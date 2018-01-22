@@ -9,8 +9,8 @@ pub struct ViewPlane {
 impl ViewPlane {
     pub fn new() -> ViewPlane {
         ViewPlane {
-            hres: 640, 
-            vres: 480, 
+            hres: 1920, 
+            vres: 1080, 
             pixel_size: 1., 
             gamma: 1., 
             inv_gamma: 1.}

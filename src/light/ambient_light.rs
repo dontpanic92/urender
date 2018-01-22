@@ -23,15 +23,15 @@ impl Light for AmbientLight {
         self.color
     }
 
-    fn incident_radiance_at(&self, point: &HitPoint) -> RGBColor {
+    fn incident_radiance_at(&self, _: &HitPoint) -> RGBColor {
         self.color
     }
 
-    fn direction(&self, coord: Coord3D) -> Vector3D {
+    fn direction(&self, _: Coord3D) -> Vector3D {
         Vector3D::new(0, 0, 0)
     }
 
-    fn is_in_shadow(&self, point: Coord3D, world: &World) -> bool {
+    fn is_in_shadow(&self, _: Coord3D, _: &World) -> bool {
         true
     }
 }

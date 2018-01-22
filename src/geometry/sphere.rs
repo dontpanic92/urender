@@ -16,18 +16,18 @@ impl Sphere {
         }
     }
 
-    pub fn new_from_dict(map: &Dictionary) -> Result<Sphere, Box<Error>> {
-        let mut split = map.get("center").ok_or("center is missing")?.split(",").peekable();
+    pub fn new_from_dict(dict: &Dictionary) -> Result<Sphere, Box<Error>> {
+        let mut split = dict.get("center").ok_or("center is missing")?.split(",").peekable();
         let center = Coord3D::new(split.next().unwrap().trim().parse::<f64>()?, split.next().unwrap().trim().parse::<f64>()?, split.next().unwrap().trim().parse::<f64>()?);
-        let radius = map.get("radius").ok_or("radius is missing")?.parse::<f64>()?;
-        let material_name = map.get("material").ok_or("material is missing").unwrap();
+        let radius = dict.get("radius").ok_or("radius is missing")?.parse::<f64>()?;
+        let material_name = dict.get("material").ok_or("material is missing").unwrap();
 
         Ok(Sphere::new(center, radius, material_name.to_string()))
     }
 }
 
 impl GeometricObject for Sphere {
-    fn hit(&self, ray: &Ray, tmin: &mut f64, world: &World) -> Option<HitPoint> {
+    fn hit(&self, ray: &Ray) -> Option<(HitPoint, f64)> {
         let temp = ray.origin() - self.center;
         let a = ray.direction().dot(ray.direction());
         let b = 2. * temp.dot(ray.direction()); 
@@ -39,15 +39,13 @@ impl GeometricObject for Sphere {
             let mut t = (-b - e) / denom;
             
             if t > KEPSILON {
-                *tmin = t;
-                return Some(HitPoint::new(ray.origin() + ray.direction() * t, temp + t * ray.direction(), self.material_name.clone()));
+                return Some((HitPoint::new(ray.origin() + ray.direction() * t, temp + t * ray.direction(), self.material_name.clone()), t));
             }
             
             t = (-b + e) / denom;
             
             if t > KEPSILON {
-                *tmin = t;
-                return Some(HitPoint::new(ray.origin() + ray.direction() * t, temp + t * ray.direction(), self.material_name.clone()));
+                return Some((HitPoint::new(ray.origin() + ray.direction() * t, temp + t * ray.direction(), self.material_name.clone()), t));
             }
         }
 

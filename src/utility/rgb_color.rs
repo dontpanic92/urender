@@ -1,6 +1,5 @@
 use std::ops::{Add, Mul, Div};
 use std::fmt::{self, Formatter, Display};
-use std::cmp::max;
 use std::error::Error;
 
 #[derive(Clone, Copy)]
@@ -58,19 +57,7 @@ impl RGBColor {
     }
 
     pub fn max_to_one(&self) -> RGBColor {
-        let max_value = if self.r > self.g {
-            if self.r > self.b {
-                self.r
-            } else {
-                self.b
-            }
-        } else {
-            if self.g > self.b {
-                self.g
-            } else {
-                self.b
-            }
-        };
+        let max_value = self.r.max(self.g).max(self.b);
 
         if max_value > 1. {
             *self / max_value

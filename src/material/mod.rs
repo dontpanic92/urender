@@ -7,7 +7,6 @@ mod phong;
 
 use utility::*;
 use world::*;
-use std::collections::HashMap;
 use std::error::Error;
 
 pub trait Material {

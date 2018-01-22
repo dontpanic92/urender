@@ -1,6 +1,5 @@
 use super::*;
 use super::brdf::*;
-use light::*;
 use utility::*;
 use std::f64;
 use std::error::Error;

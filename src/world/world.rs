@@ -34,21 +34,6 @@ impl World {
         }
     }
     
-    pub fn build(&mut self) {
-        let phong_red = Box::new(Phong::new(0.2, 2.5, 1., 10., RED));
-        let phong_green = Box::new(Phong::new(0.2, 2.5, 1., 10., GREEN));
-        let phong_white = Box::new(Phong::new(0.1, 1., 1., 5., WHITE));
-        let matte_red = Box::new(Matte::new(0.25, 1., RED));
-        let matte_green = Box::new(Matte::new(0.25, 1., GREEN));
-        let matte_white = Box::new(Matte::new(0.2, 2.5, WHITE));
-
-        // self.add_object(Box::new(Sphere::new(Coord3D::new(0, 20, 0), 65., phong_red)));
-        // self.add_object(Box::new(Sphere::new(Coord3D::new(0, -40, 0), 85., phong_green)));
-        // self.add_object(Box::new(Plane::new(Coord3D::new(0, -40, 0), Vector3D::new(0, 1, 0), matte_white)));
-        // self.add_light(Box::new(DirectionalLight::new(Vector3D::new(-1, -1, 0), WHITE)));  
-        // self.add_light(Box::new(PointLight::new(Coord3D::new(200, 200, 100), WHITE)));
-    }
-    
     pub fn add_object(&mut self, object: Box<GeometricObject>) {
         self.objects.push(object);
     }
@@ -58,14 +43,13 @@ impl World {
     }
 
     pub fn hit_objects(&self, ray: &Ray) -> Option<HitPoint> {
-        let mut t = 0f64;
         let mut tmin = MAX_DISTANCE;
         let mut sr = None;
 
         for object in &self.objects {
-            let result = object.hit(ray, &mut t, &self);
+            let result = object.hit(ray);
             match result {
-                Some(x) => if t < tmin {
+                Some((x, t)) => if t < tmin {
                     tmin = t;
                     sr = Some(x);
                 },

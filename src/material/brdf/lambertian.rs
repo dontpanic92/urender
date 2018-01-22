@@ -13,11 +13,11 @@ impl Lambertian {
 }
 
 impl BRDF for Lambertian {
-    fn f(&self, point: &HitPoint, wi: Vector3D, wo: Vector3D) -> RGBColor {
+    fn f(&self, _: &HitPoint, _: Vector3D, _: Vector3D) -> RGBColor {
         self.color * self.kd * consts::FRAC_1_PI
     }
 
-    fn rho(&self, point: &HitPoint, wo: Vector3D) -> RGBColor {
+    fn rho(&self, _: &HitPoint, _: Vector3D) -> RGBColor {
         self.color * self.kd
     }
 }
