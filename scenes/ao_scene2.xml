@@ -1,0 +1,18 @@
+<World>
+<Materials>
+    <Matte name="white" ka="0.8" kd="1.0" color="#FFFFFF" />
+    <Matte name="yellow" ka="0.8" kd="1.0" color="#EEC900" />
+</Materials>
+<Lights>
+    <AmbientOccluder color="#FFFFFF" />
+    <Point color="#FFFFFF" coord="200, 200, 200" />
+</Lights>
+<Geometry>
+    <AABox coord1="0, 0, 0" coord2="50, 350, 50"  material="white" />
+    <AABox coord1="0, 0, 100" coord2="50, 250, 150"  material="white" />
+    <AABox coord1="100, 0, 0" coord2="150, 250, 50"  material="white" />
+    <AABox coord1="100, 0, 100" coord2="150, 300, 150"  material="white" />
+    <Plane point="0, 0, 0" normal="0, 1, 0" material="white" />
+</Geometry>
+<Camera vfov="40" hres="1920" vres="1080" position="-400, 400, 1000" lookat="0, 0, 0" />
+</World>

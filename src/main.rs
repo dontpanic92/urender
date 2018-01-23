@@ -23,8 +23,6 @@ fn main() {
     /*let mut w = World::new();
     w.build();*/
     let w = World::load_scene(args[1].as_str());
-    
-    let c = camera::PinholeCamera::new();
-    let img = c.render(&w, &tracer::RayCast::new());
+    let img = w.camera().render(&w, &tracer::RayCast::new());
     img.save(&args[2]).unwrap();
 }

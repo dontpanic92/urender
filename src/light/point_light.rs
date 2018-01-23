@@ -30,7 +30,7 @@ impl Light for PointLight {
         self.color
     }
     
-    fn incident_radiance_at(&self, _: &HitPoint) -> RGBColor {
+    fn incident_radiance_at(&self, _: &HitPoint, _: &World) -> RGBColor {
         self.color 
         // point.normal().dot((self.direction(point.coord())))
     }

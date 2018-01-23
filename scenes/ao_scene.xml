@@ -1,0 +1,14 @@
+<World>
+<Materials>
+    <Matte name="white" ka="0.8" kd="1.0" color="#FFFFFF" />
+    <Matte name="yellow" ka="0.8" kd="1.0" color="#EEC900" />
+</Materials>
+<Lights>
+    <AmbientOccluder color="#FFFFFF" />
+</Lights>
+<Geometry>
+    <Sphere center="0, 50, 0" radius="50" material="yellow" />
+    <Plane point="0, 0, 0" normal="0, 1, 0" material="white" />
+</Geometry>
+<Camera vfov="40" hres="1920" vres="1080" position="0, 400, 1000" lookat="0, 0, 0" />
+</World>

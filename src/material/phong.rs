@@ -29,7 +29,7 @@ impl Phong {
 impl Material for Phong {
     fn shade(&self, point: &HitPoint, camera_ray: &Ray, world: &World) -> RGBColor {
         let wo = -camera_ray.direction();
-        let mut color = (**world.ambient_light()).incident_radiance_at(point) * self.ambient.rho(point, wo);
+        let mut color = (**world.ambient_light()).incident_radiance_at(point, world) * self.ambient.rho(point, wo);
 
         for light in world.lights().iter() {
             if light.is_in_shadow(point.coord(), world) {
@@ -40,7 +40,7 @@ impl Material for Phong {
             let cos = point.normal().dot(wi);
 
             if cos > 0. {
-                color = color + (self.diffuse.f(point, wi, wo) + self.specular.f(point, wi, wo)) * (*light).incident_radiance_at(point) * cos;
+                color = color + (self.diffuse.f(point, wi, wo) + self.specular.f(point, wi, wo)) * (*light).incident_radiance_at(point, world) * cos;
             }
         }
 

@@ -2,6 +2,9 @@ use super::*;
 use utility::*;
 use sampler::*;
 use bmp::Pixel;
+use std::error::Error;
+use std::io;
+use std::io::Write;
 
 pub struct PinholeCamera {
     vfov: f64,
@@ -13,9 +16,21 @@ pub struct PinholeCamera {
 }
 
 impl PinholeCamera {
-    pub fn new() -> PinholeCamera
-    {
-        PinholeCamera { vfov: 40., vres: 1080, hres: 1920, eye: Coord3D::new(0, 800, 2000), looking_at: Coord3D::new(0, 0, 0), sampler: Box::new(RegularSampler::new(2, 2)) }
+    pub fn new(vfov: f64, vres: u32, hres: u32, eye: Coord3D, lookat: Coord3D) -> PinholeCamera {
+        PinholeCamera { vfov: vfov, vres: vres, hres: hres, eye: eye, looking_at: lookat, sampler: Box::new(RegularSampler::new(2, 2)) }
+    }
+
+    pub fn new_from_dict(dict: &Dictionary) -> Result<PinholeCamera, Box<Error>> {
+        let mut position_split = dict.get("position").ok_or("position is missing")?.split(",");
+        let position = Coord3D::new(position_split.next().unwrap().trim().parse::<f64>()?, position_split.next().unwrap().trim().parse::<f64>()?, position_split.next().unwrap().trim().parse::<f64>()?);
+        let mut lookat_split = dict.get("lookat").ok_or("lookat is missing")?.split(",");
+        let lookat = Coord3D::new(lookat_split.next().unwrap().trim().parse::<f64>()?, lookat_split.next().unwrap().trim().parse::<f64>()?, lookat_split.next().unwrap().trim().parse::<f64>()?);
+
+        let vfov = dict.get("vfov").ok_or("vfov is missing")?.parse::<f64>()?;
+        let vres = dict.get("vres").ok_or("vres is missing")?.parse::<u32>()?;
+        let hres = dict.get("hres").ok_or("hres is missing")?.parse::<u32>()?;
+
+        Ok(PinholeCamera::new(vfov, vres, hres, position, lookat))
     }
 }
 
@@ -27,9 +42,14 @@ impl Camera for PinholeCamera {
         let local_left = up.cross(local_front).normalize();
         let local_up = local_front.cross(local_left).normalize();
 
-        println!("front {} left {} up {}", local_front, local_left, local_up);
-
-        for (x, y) in img.coordinates() {
+        // println!("front {} left {} up {}", local_front, local_left, local_up);
+        let total = (self.hres * self.vres) as f64;
+        for (i, (x, y)) in img.coordinates().enumerate() {
+            if i % 10000 == 0 {
+                let progress = i as f64 / total;
+                print!("Rendering... {:.2}%\r", progress * 100.);
+                io::stdout().flush().unwrap();
+            }
 
             let rx = - (x as f64 - (self.hres as f64 - 1.) / 2.);
             let ry = (self.vres - y) as f64 -(self.vres as f64 - 1.) / 2.;

@@ -5,6 +5,7 @@
     <Matte name="green" ka="0.2" kd="1.0" color="#00FF00" />
     <Phong name="greenp" ka="0.2" kd="1.0" ks="0.5" color="#00FF00" />
     <Matte name="white" ka="0.2" kd="1.0" color="#FFFFFF" />
+    <Phong name="whitep" ka="0.2" kd="1.0" ks="0.5" color="#FFFFFF" />
 </Materials>
 <Lights>
     <Ambient color="#FFFFFF" />
@@ -13,7 +14,7 @@
 <Geometry>
     <!--Sphere center="0, 20, 0" radius="60" material="redp" />
     <Sphere center="0, -40, 0" radius="85" material="green" /-->
-    <Plane point="0, -20, 0" normal="0, 1, 0" material="white" />
+    <Plane point="0, -20, 0" normal="0, 1, 0" material="whitep" />
     <Disk center="500, 0, 0" normal="-1, 0, 0" radius="200" material="redp" />
     <Disk center="-500, 0, 0" normal="1, 0, 0" radius="200" material="redp" />
     <Disk center="0, 0, 500" normal="0, 0, -1" radius="200" material="redp" />
@@ -21,4 +22,5 @@
     <Cylinder center1="300, -5000, 0" center2="300, 5000, 0" radius="20" material="greenp" />
     <AABox coord1="0, -20, -200" coord2="50, 200, -150" material="greenp" />
 </Geometry>
+<Camera vfov="40" hres="1920" vres="1080" position="0, 400, 1000" lookat="0, 0, 0" />
 </World>

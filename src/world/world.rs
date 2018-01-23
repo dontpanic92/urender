@@ -5,6 +5,7 @@ use geometry::*;
 use tracer::*;
 use light::*;
 use material::*;
+use camera::*;
 
 use std::collections::HashMap;
 use std::fs::File;
@@ -18,6 +19,7 @@ pub struct World {
     materials: HashMap<String, Box<Material>>,
     ambient_light: Box<Light>,
     tracer: Box<Tracer>,
+    camera: Box<PinholeCamera>
 }
 
 const MAX_DISTANCE: f64 = 99999999.;
@@ -30,8 +32,13 @@ impl World {
             lights: Vec::new(),
             materials: HashMap::new(),
             ambient_light: Box::new(AmbientLight::new(WHITE)),
-            tracer: Box::new(RayCast::new())
+            tracer: Box::new(RayCast::new()),
+            camera: Box::new(PinholeCamera::new(40., 1920, 1080, Coord3D::new(0, 0, 200), Coord3D::new(0, 0, 0)))
         }
+    }
+
+    pub fn camera(&self) -> &Box<PinholeCamera> {
+        &self.camera
     }
     
     pub fn add_object(&mut self, object: Box<GeometricObject>) {
@@ -91,6 +98,7 @@ impl World {
         let mut geometry = Vec::new();
         let mut geometry_objects = Vec::new();
         let mut ambient_light = None;
+        let mut camera = None;
         
         for child in root.children() {
              match child.name().to_lowercase().as_str() {
@@ -106,7 +114,7 @@ impl World {
                     let light_type = light_node.name();
                     let light = create_light(light_type, light_node).unwrap();
                     match light_type.to_lowercase().as_str() {
-                        "ambient" | "ambientlight" => ambient_light = Some(light),
+                        "ambient" | "ambientlight" | "ambientoccluder" => ambient_light = Some(light),
                         _ => lights.push(light)
                     }
                 }
@@ -114,11 +122,10 @@ impl World {
                 for geometry_node in child.children() {
                     geometry.push(geometry_node);
                 }
+                "camera" => camera = Some(Box::new(PinholeCamera::new_from_dict(child).unwrap())),
                 _ => (),
             }
         }
-
-        println!("{}", lights.len());
 
         for g in geometry {
             let material_name = g.attr("material").unwrap();
@@ -134,7 +141,8 @@ impl World {
             lights: lights,
             materials: materials,
             ambient_light: ambient_light.unwrap(),
-            tracer: Box::new(RayCast::new())
+            tracer: Box::new(RayCast::new()),
+            camera: camera.unwrap()
         }
     }
 }
