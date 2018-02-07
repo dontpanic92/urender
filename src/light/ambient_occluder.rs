@@ -11,7 +11,7 @@ pub struct AmbientOccluder {
 
 impl AmbientOccluder {
     pub fn new(color: RGBColor) -> AmbientOccluder {
-        AmbientOccluder { color: color,  sampler: Box::new(RandomSampler::new(64)), max_distance: 200.}
+        AmbientOccluder { color: color,  sampler: Box::new(MultiJitteredSampler::new(8, 8)), max_distance: 200.}
     }
     
     pub fn new_from_dict(map: &Dictionary) -> Result<AmbientOccluder, Box<Error>> {

@@ -17,7 +17,7 @@ pub struct PinholeCamera {
 
 impl PinholeCamera {
     pub fn new(vfov: f64, vres: u32, hres: u32, eye: Coord3D, lookat: Coord3D) -> PinholeCamera {
-        PinholeCamera { vfov: vfov, vres: vres, hres: hres, eye: eye, looking_at: lookat, sampler: Box::new(RegularSampler::new(2, 2)) }
+        PinholeCamera { vfov: vfov, vres: vres, hres: hres, eye: eye, looking_at: lookat, sampler: Box::new(MultiJitteredSampler::new(2, 2)) }
     }
 
     pub fn new_from_dict(dict: &Dictionary) -> Result<PinholeCamera, Box<Error>> {

@@ -20,9 +20,9 @@ impl Sampler for RegularSampler {
         let row_start = row_step / 2.;
         let col_start = col_step / 2.;
 
-        for i in 0..self.row {
-            for j in 0..self.col {
-                ret.push(Coord2D::new(row_start + i as f64 * row_step, col_start + j as f64 * col_step));
+        for i in 0..self.col {
+            for j in 0..self.row {
+                ret.push(Coord2D::new(row_start + i as f64 * col_step, col_start + j as f64 * row_step));
             }
         }
         ret

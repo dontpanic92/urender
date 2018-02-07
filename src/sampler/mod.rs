@@ -1,9 +1,15 @@
 pub use self::random_sampler::*;
 pub use self::regular_sampler::*;
+pub use self::jittered_sampler::*;
+pub use self::nrooks_sampler::*;
+pub use self::multijittered_sampler::*;
 use std::f64::consts;
 
 mod random_sampler;
 mod regular_sampler;
+mod jittered_sampler;
+mod nrooks_sampler;
+mod multijittered_sampler;
 
 use utility::*;
 
