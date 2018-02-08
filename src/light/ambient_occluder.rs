@@ -30,7 +30,7 @@ impl Light for AmbientOccluder {
         let up = Vector3D::new(0.0072, 1., 0.0034);
         let w = point.normal();
         let v = w.cross(up).normalize();
-        let u = w.cross(v);
+        let u = v.cross(w);
 
         let mut color = BLACK;
         let samples = self.sampler.sample_hemisphere();
@@ -39,8 +39,7 @@ impl Light for AmbientOccluder {
             let ray = Ray::new(point.coord(), direction);
             let delta = match world.hit_objects(&ray) {
                 None => self.color,
-                Some(point) => {
-                    let t = (point.coord() - ray.origin()).norm();
+                Some((_, t)) => {
                     if t > self.max_distance {
                         self.color
                     } else {

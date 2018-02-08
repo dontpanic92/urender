@@ -17,7 +17,7 @@ impl Tracer for RayCast {
         let sr = world.hit_objects(ray);
         
         match sr {
-            Some(x) => world.material(x.material_name()).shade(&x, ray, world),
+            Some((point, _)) => world.material(point.material_name()).shade(&point, ray, world),
             None => world.bgcolor(),
         }
     }

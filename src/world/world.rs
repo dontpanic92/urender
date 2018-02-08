@@ -49,7 +49,7 @@ impl World {
         self.lights.push(light);
     }
 
-    pub fn hit_objects(&self, ray: &Ray) -> Option<HitPoint> {
+    pub fn hit_objects(&self, ray: &Ray) -> Option<(HitPoint, f64)> {
         let mut tmin = MAX_DISTANCE;
         let mut sr = None;
 
@@ -58,7 +58,7 @@ impl World {
             match result {
                 Some((x, t)) => if t < tmin {
                     tmin = t;
-                    sr = Some(x);
+                    sr = Some((x, t));
                 },
                 None => {}
             }

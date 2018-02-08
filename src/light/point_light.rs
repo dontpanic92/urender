@@ -44,7 +44,7 @@ impl Light for PointLight {
         let shadow_ray = Ray::new(coord, direction);
         match world.hit_objects(&shadow_ray) {
             None => false,
-            Some(hp) => if (hp.coord() - coord).norm() > (self.coord() - coord).norm() {
+            Some((_, t)) => if t > 0.001 && t > (self.coord() - coord).norm() {
                 false
             } else {
                 true

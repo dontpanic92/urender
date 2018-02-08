@@ -22,8 +22,8 @@ impl Sampler for MultiJitteredSampler {
         let mut rng = rand::thread_rng();
 
         // initial arrangement
-        for i in 0..self.col {
-            for j in 0..self.row {
+        for j in 0..self.row {
+            for i in 0..self.col {
                 let x = (i as f64 + (j as f64 + rng.gen::<f64>()) * row_step) * col_step;
                 let y = (j as f64 + (i as f64 + rng.gen::<f64>()) * col_step) * row_step;
                 ret.push(Coord2D::new(x, y));
@@ -31,18 +31,6 @@ impl Sampler for MultiJitteredSampler {
         }
 
         // correlated shuffle
-        for i in 0..self.col {
-            let k = i + (rng.gen::<f64>() * (self.col - i) as f64) as i32;
-            for j in 0..self.row {
-                let index1 = (j * self.col + i) as usize;
-                let index2 = (k * self.col + i) as usize;
-                let coord1 = ret[index1];
-                let coord2 = ret[index2];
-                ret[index1] = Coord2D::new(coord1.x(), coord2.y());
-                ret[index2] = Coord2D::new(coord2.x(), coord1.y());
-            }
-        }
-
         for j in 0..self.row {
             let k = j + (rng.gen::<f64>() * (self.row - j) as f64) as i32;
             for i in 0..self.col {
@@ -52,6 +40,18 @@ impl Sampler for MultiJitteredSampler {
                 let coord2 = ret[index2];
                 ret[index1] = Coord2D::new(coord2.x(), coord1.y());
                 ret[index2] = Coord2D::new(coord1.x(), coord2.y());
+            }
+        }
+
+        for i in 0..self.col {
+            let k = i + (rng.gen::<f64>() * (self.col - i) as f64) as i32;
+            for j in 0..self.row {
+                let index1 = (j * self.col + i) as usize;
+                let index2 = (j * self.col + k) as usize;
+                let coord1 = ret[index1];
+                let coord2 = ret[index2];
+                ret[index1] = Coord2D::new(coord1.x(), coord2.y());
+                ret[index2] = Coord2D::new(coord2.x(), coord1.y());
             }
         }
 
